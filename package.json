@@ -1,0 +1,8 @@
+{
+  "name": "terminal",
+  "main": "lib/terminal.coffee",
+  "dependencies": {
+    "pty.js": "",
+    "tty.js": ""
+  }
+}
