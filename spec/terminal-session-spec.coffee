@@ -1,6 +1,6 @@
 TerminalSession = require 'terminal/lib/terminal-session'
 
-describe "TerminalSession", ->
+fdescribe "TerminalSession", ->
   session = null
 
   afterEach ->

@@ -1,7 +1,7 @@
 TerminalSession = require 'terminal/lib/terminal-session'
 RootView = require 'root-view'
 
-describe "Terminal", ->
+fdescribe "Terminal", ->
   beforeEach ->
     window.rootView = new RootView
     atom.activatePackage 'terminal'
