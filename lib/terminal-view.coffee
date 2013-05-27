@@ -5,10 +5,16 @@ _ = require 'underscore'
 module.exports =
 class TerminalView extends View
   @content:->
-    @div "Terminal View"
+    @div class: "terminal", =>
+      @div class: "content", outlet: "content", =>
+        @pre
+      @input class: 'hidden-input', outlet: 'hiddenInput'
 
   constructor: (session) ->
     super
     @setModel(session)
 
   setModel: (@session) ->
+
+  buffer: ->
+    @session.buffer
