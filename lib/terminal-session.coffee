@@ -8,6 +8,7 @@ module.exports =
 class TerminalSession
   path: null
   process: null
+  exitCode: null
 
   registerDeserializer(this)
 
@@ -17,16 +18,17 @@ class TerminalSession
   constructor: (@path) ->
     @buffer = new TerminalBuffer
     @process = pty.spawn(process.env.SHELL, [],
-      name: 'xterm-color'
+      name: 'xterm-256color'
       cols: 80
       rows: 30
       cwd: fsUtils.absolute(@path)
       env: process.env
     )
 
-    @process.on 'data', (data) => @trigger 'data', data
-    @on 'data', (data) =>
-      @buffer.trigger 'data'
+    @process.on 'data', (data) => @buffer.trigger 'data', data
+    @process.on 'exit', =>
+      @exitCode = 0
+      @destroy()
 
   serialize: ->
     deserializer: 'TerminalSession'
@@ -40,5 +42,8 @@ class TerminalSession
 
   destroy: ->
     @process.kill()
+
+  input: (data) ->
+    @process.write(data)
 
 _.extend TerminalSession.prototype, EventEmitter
