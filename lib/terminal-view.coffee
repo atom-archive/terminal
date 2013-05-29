@@ -18,7 +18,7 @@ class TerminalView extends View
   setModel: (@session) ->
 
   renderChar: (c) ->
-    char = $("<span>").text(c)
+    char = $("<span>").text(c.char)
     char
 
   renderLine: (lineNumber, chars) ->

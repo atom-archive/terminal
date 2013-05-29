@@ -189,28 +189,14 @@ class TerminalBuffer
     @addLine()
     @scrollingRegion = null
     @redrawNeeded = true
-    @dirtyLines = []
 
   disableAlternateBuffer: ->
     return if !@altBuffer?
     [@lines, @altBuffer] = [@altBuffer, null]
     @scrollingRegion = null
     @redrawNeeded = true
-    @dirtyLines = []
-
-  addDirtyLine: (line) ->
-    @dirtyLines.push(line) if _.contains(@lines, line) && !_.contains(@dirtyLines, line)
-
-  getDirtyLines: ->
-    _.uniq(@dirtyLines)
-
-  rendered: ->
-    line.rendered() for line in @dirtyLines
-    @dirtyLines = []
 
   renderedAll: ->
-    line.rendered() for line in @lines
-    @dirtyLines = []
     @redrawNeeded = false
 
   backspace: ->
@@ -717,11 +703,7 @@ class TerminalBufferLine
     @setDirty()
 
   setDirty: ->
-    @dirty = true
     @buffer.lineChanged(this)
-
-  rendered: ->
-    @dirty = false
 
   clearCursor: ->
     c.cursor = false for c in @characters
