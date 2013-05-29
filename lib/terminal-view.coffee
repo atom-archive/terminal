@@ -12,8 +12,8 @@ class TerminalView extends View
 
   constructor: (session) ->
     super
+    session.on 'update', (data) => @update(data)
     @setModel(session)
-    @on 'update', (e, data) => @update(data)
 
   setModel: (@session) ->
 

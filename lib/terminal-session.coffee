@@ -27,6 +27,7 @@ class TerminalSession
 
     @process.on 'data', (data) => @trigger 'data', data
     @on 'data', (data) => @buffer.trigger 'data', data
+    @buffer.on 'update', (data) => @trigger 'update', data
     @process.on 'exit', =>
       @exitCode = 0
       @destroy()

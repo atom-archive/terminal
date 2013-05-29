@@ -12,7 +12,7 @@ fdescribe "TerminalSession", ->
 
   describe "data events", ->
     it "forwards data events from the underlying terminal process", ->
-      waitsFor "data event", (done) -> session.on 'data', done
+      waitsFor "data event", (done) -> session.one 'data', done
 
   describe "buffer", ->
     it "creates a terminal buffer", ->
