@@ -17,17 +17,17 @@ class TerminalView extends View
 
   setModel: (@session) ->
 
-  renderRow: (row) ->
-    char = $("<span>").text(row)
+  renderChar: (c) ->
+    char = $("<span>").text(c)
     char
 
-  renderLine: (lineNumber, rows) ->
+  renderLine: (lineNumber, chars) ->
     line = $("<pre>").addClass("line").addClass("line-#{lineNumber}")
-    line.append(@renderRow(row)) for row in rows
+    line.append(@renderChar(char)) for char in chars
     line
 
-  update: ({lineNumber, rows}) ->
-    rendered = @renderLine(lineNumber, rows)
+  update: ({lineNumber, chars}) ->
+    rendered = @renderLine(lineNumber, chars)
     line = @renderedLines.find(".line-#{lineNumber}")
     if line.size() > 0
       $(line.get(0)).replaceWith(rendered)

@@ -14,12 +14,12 @@ fdescribe "Terminal view", ->
 
   describe "update event", ->
     it "adds a new line", ->
-      session.trigger 'update', {lineNumber:1, rows:["a"]}
+      session.trigger 'update', {lineNumber:1, chars:["a"]}
       expect(view.find(".line").size()).toBe(1)
       expect(view.find(".line span").text()).toBe("a")
 
     it "updates the content of an existing line", ->
-      session.trigger 'update', {lineNumber:1, rows:["a"]}
-      session.trigger 'update', {lineNumber:1, rows:["b"]}
+      session.trigger 'update', {lineNumber:1, chars:["a"]}
+      session.trigger 'update', {lineNumber:1, chars:["b"]}
       expect(view.find(".line").size()).toBe(1)
       expect(view.find(".line span").text()).toBe("b")
