@@ -17,7 +17,7 @@ class TerminalSession
 
   constructor: (@path) ->
     @buffer = new TerminalBuffer
-    @process = pty.spawn(process.env.SHELL, [],
+    @process = pty.spawn(process.env.SHELL, ["-l"],
       name: 'xterm-256color'
       cols: 80
       rows: 30
@@ -25,7 +25,8 @@ class TerminalSession
       env: process.env
     )
 
-    @process.on 'data', (data) => @buffer.trigger 'data', data
+    @process.on 'data', (data) => @trigger 'data', data
+    @on 'data', (data) => @buffer.trigger 'data', data
     @process.on 'exit', =>
       @exitCode = 0
       @destroy()

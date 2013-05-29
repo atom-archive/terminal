@@ -12,7 +12,7 @@ fdescribe "TerminalSession", ->
 
   describe "data events", ->
     it "forwards data events from the underlying terminal process", ->
-      waitsFor "data event", (done) -> session.one 'data', done
+      waitsFor "data event", (done) -> session.on 'data', done
 
   describe "buffer", ->
     it "creates a terminal buffer", ->
@@ -22,4 +22,4 @@ fdescribe "TerminalSession", ->
   describe "input", ->
     it "sends inputs to terminal process", ->
       session.input("logout\n")
-      expect(session.exitCode).toBe(0)
+      waitsFor "exit", -> session.exitCode == 0
