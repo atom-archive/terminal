@@ -5,6 +5,13 @@ _ = require 'underscore'
 
 fdescribe "Terminal view", ->
   [view, session] = []
+
+  makeChars = (chars...) ->
+    c = []
+    for char in chars
+      c.push({char: char})
+    c
+
   beforeEach ->
     window.rootView = new RootView
     atom.activatePackage 'terminal'
@@ -14,12 +21,12 @@ fdescribe "Terminal view", ->
 
   describe "update event", ->
     it "adds a new line", ->
-      session.trigger 'update', {lineNumber:1, chars:["a"]}
+      session.trigger 'update', {lineNumber:1, chars:makeChars("a")}
       expect(view.find(".line").size()).toBe(1)
       expect(view.find(".line span").text()).toBe("a")
 
     it "updates the content of an existing line", ->
-      session.trigger 'update', {lineNumber:1, chars:["a"]}
-      session.trigger 'update', {lineNumber:1, chars:["b"]}
+      session.trigger 'update', {lineNumber:1, chars:makeChars("a")}
+      session.trigger 'update', {lineNumber:1, chars:makeChars("b")}
       expect(view.find(".line").size()).toBe(1)
       expect(view.find(".line span").text()).toBe("b")
