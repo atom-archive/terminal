@@ -45,7 +45,6 @@ class TerminalBuffer
     @tabstops = []
     @cursor = new TerminalCursor(this)
     @addLine(false)
-    @redrawNeeded = true
     @title = ""
     @tabstops = []
 
@@ -186,18 +185,16 @@ class TerminalBuffer
 
   enableAlternateBuffer: ->
     [@altBuffer, @lines] = [@lines, []]
+    @trigger 'clear'
     @addLine()
     @scrollingRegion = null
-    @redrawNeeded = true
 
   disableAlternateBuffer: ->
     return if !@altBuffer?
     [@lines, @altBuffer] = [@altBuffer, null]
     @scrollingRegion = null
-    @redrawNeeded = true
-
-  renderedAll: ->
-    @redrawNeeded = false
+    line.setDirty() for line in @lines
+    @trigger 'clear'
 
   backspace: ->
     @cursor.x -= 1

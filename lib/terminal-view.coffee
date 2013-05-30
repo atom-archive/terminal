@@ -10,6 +10,8 @@ class TerminalView extends View
     @div class: "terminal", =>
       @div class: "lines", outlet: "renderedLines"
       @input class: 'hidden-input', outlet: 'hiddenInput'
+  @color: (n) ->
+    ColorTable[n-16]
 
   constructor: (session) ->
     super
@@ -17,6 +19,7 @@ class TerminalView extends View
     @setModel(session)
     @pendingUpdates = {}
     @session.on 'update', (data) => @queueUpdate(data)
+    @session.on 'clear', => @clearView()
     @on 'click', =>
       @hiddenInput.focus()
     @on 'focus', =>
@@ -56,8 +59,20 @@ class TerminalView extends View
   input: (data) ->
     @session?.trigger 'input', data
 
+  characterColor: (char, color, bgcolor) ->
+    if color >= 16 then char.css(color: "##{TerminalView.color(color)}")
+    else if color >= 0 then char.addClass("color-#{color}")
+    if bgcolor >= 16 then char.css("background-color": "##{TerminalView.color(bgcolor)}")
+    else if bgcolor >= 0 then char.addClass("background-#{bgcolor}")
+
   renderChar: (c) ->
     char = $("<span>").text(c.char)
+    [color, bgcolor] = [c.color, c.backgroundColor]
+    if c.reversed
+      color = 7 if color == -1
+      bgcolor = 7 if bgcolor == -1
+      [color, bgcolor] = [bgcolor, color]
+    @characterColor(char, color, bgcolor)
     char
 
   renderLine: (lineNumber, chars) ->
@@ -85,6 +100,11 @@ class TerminalView extends View
     for lineNumber, chars of @pendingUpdates
       @update({lineNumber: lineNumber, chars: chars})
     @pendingUpdates = {}
+
+  clearView: ->
+    @pendingDisplayUpdate = false
+    @pendingUpdates = {}
+    @renderedLines.empty()
 
   buffer: ->
     @session.buffer
