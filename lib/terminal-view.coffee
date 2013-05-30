@@ -100,6 +100,7 @@ class TerminalView extends View
     for lineNumber, chars of @pendingUpdates
       @update({lineNumber: lineNumber, chars: chars})
     @pendingUpdates = {}
+    @trigger 'view-updated'
 
   clearView: ->
     @pendingDisplayUpdate = false
