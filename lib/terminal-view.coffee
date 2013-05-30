@@ -1,4 +1,5 @@
 {View} = require 'space-pen'
+TerminalBuffer = require 'terminal/lib/terminal-buffer'
 ColorTable = require 'terminal/lib/terminal-color-table'
 _ = require 'underscore'
 $ = require 'jquery'
@@ -12,10 +13,48 @@ class TerminalView extends View
 
   constructor: (session) ->
     super
-    session.on 'update', (data) => @update(data)
+    @pendingDisplayUpdate = false
     @setModel(session)
+    @pendingUpdates = {}
+    @session.on 'update', (data) => @queueUpdate(data)
+    @on 'click', =>
+      @hiddenInput.focus()
+    @on 'focus', =>
+      @hiddenInput.focus()
+      # @updateTerminalSize()
+      # @scrollToCursor()
+      false
+    @on 'textInput', (e) =>
+      @input(e.originalEvent.data)
+      false
+    @on 'keydown', (e) =>
+      keystroke = keymap.keystrokeStringForEvent(e)
+      if match = keystroke.match /^ctrl-([a-zA-Z])$/
+        @input(TerminalBuffer.ctrl(match[1]))
+        false
+
+    @command "terminal:enter", => @input("#{TerminalBuffer.carriageReturn}")
+    @command "terminal:delete", => @input(TerminalBuffer.deleteKey)
+    @command "terminal:backspace", => @input(TerminalBuffer.backspace)
+    @command "terminal:escape", => @input(TerminalBuffer.escape)
+    @command "terminal:tab", => @input(TerminalBuffer.tab)
+    for letter in "abcdefghijklmnopqrstuvwxyz"
+      do (letter) =>
+        key = TerminalBuffer.ctrl(letter)
+        @command "terminal:ctrl-#{letter}", => @input(key)
+    @command "terminal:paste", => @input(pasteboard.read())
+    @command "terminal:left", => @input(TerminalBuffer.escapeSequence("D"))
+    @command "terminal:right", => @input(TerminalBuffer.escapeSequence("C"))
+    @command "terminal:up", => @input(TerminalBuffer.escapeSequence("A"))
+    @command "terminal:down", => @input(TerminalBuffer.escapeSequence("B"))
+    @command "terminal:home", => @input(TerminalBuffer.ctrl("a"))
+    @command "terminal:end", => @input(TerminalBuffer.ctrl("e"))
+    @command "terminal:reload", => @reload()
 
   setModel: (@session) ->
+
+  input: (data) ->
+    @session?.trigger 'input', data
 
   renderChar: (c) ->
     char = $("<span>").text(c.char)
@@ -23,7 +62,7 @@ class TerminalView extends View
 
   renderLine: (lineNumber, chars) ->
     line = $("<pre>").addClass("line").addClass("line-#{lineNumber}")
-    line.append(@renderChar(char)) for char in chars
+    line.append(@renderChar(char)) for char in chars if chars?
     line
 
   update: ({lineNumber, chars}) ->
@@ -33,6 +72,19 @@ class TerminalView extends View
       $(line.get(0)).replaceWith(rendered)
     else
       @renderedLines.append(rendered)
+
+  queueUpdate: ({lineNumber, chars}) ->
+    @pendingUpdates[lineNumber] = chars
+    return if @pendingDisplayUpdate
+    @pendingDisplayUpdate = true
+    _.nextTick =>
+      @updateView()
+      @pendingDisplayUpdate = false
+
+  updateView: ->
+    for lineNumber, chars of @pendingUpdates
+      @update({lineNumber: lineNumber, chars: chars})
+    @pendingUpdates = {}
 
   buffer: ->
     @session.buffer
