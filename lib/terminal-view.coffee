@@ -66,7 +66,8 @@ class TerminalView extends View
     else if bgcolor >= 0 then char.addClass("background-#{bgcolor}")
 
   renderChar: (c) ->
-    char = $("<span>").text(c.char)
+    char = $("<span>").text(c.char).addClass("character")
+    char.append($("<span>").addClass("cursor")) if c.cursor
     [color, bgcolor] = [c.color, c.backgroundColor]
     if c.reversed
       color = 7 if color == -1

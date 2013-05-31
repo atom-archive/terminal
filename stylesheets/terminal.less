@@ -8,8 +8,30 @@
     margin: 0px;
     padding: 0px;
 
-    span {
+    display: block;
+    line-height: 1.4em;
+    height: 1.4em;
+    clear: both;
+
+    span.character {
+      display: block;
+      height: 1.4em;
+      text-align: center;
+      float: left;
+      position: relative;
     }
+  }
+
+  .cursor {
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    bottom: 0; right: 0;
+    width: 0.8em;
+    height: 1.4em;
+    background-color: #000;
+    opacity: 0.35;
+    z-index: 2;
   }
 
   input.hidden-input {
@@ -18,6 +40,18 @@
     top: 0;
     left: 0;
     opacity: 0;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .underlined {
+    text-decoration: underline;
   }
 
 
