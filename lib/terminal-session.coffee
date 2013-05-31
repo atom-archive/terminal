@@ -28,6 +28,7 @@ class TerminalSession
     @process.on 'data', (data) => @trigger 'data', data
     @on 'data', (data) => @buffer.trigger 'data', data
     @on 'input', (data) => @input(data)
+    @on 'resize', (data) => @resize(data)
     @buffer.on 'update', (data) => @trigger 'update', data
     @buffer.on 'clear', => @trigger 'clear'
     @process.on 'exit', =>
@@ -49,5 +50,9 @@ class TerminalSession
 
   input: (data) ->
     @process.write(data)
+
+  resize: (data) ->
+    @buffer.setSize([data[0], data[1]])
+    @process.resize(data[1], data[0])
 
 _.extend TerminalSession.prototype, EventEmitter

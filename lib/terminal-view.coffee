@@ -1,11 +1,12 @@
 {View} = require 'space-pen'
+ScrollView = require 'scroll-view'
 TerminalBuffer = require 'terminal/lib/terminal-buffer'
 ColorTable = require 'terminal/lib/terminal-color-table'
 _ = require 'underscore'
 $ = require 'jquery'
 
 module.exports =
-class TerminalView extends View
+class TerminalView extends ScrollView
   @content:->
     @div class: "terminal", =>
       @div class: "lines", outlet: "renderedLines"
@@ -18,14 +19,16 @@ class TerminalView extends View
     @pendingDisplayUpdate = false
     @setModel(session)
     @pendingUpdates = {}
+    @cursorLine = 0
+    @newCursorLine = 0
     @session.on 'update', (data) => @queueUpdate(data)
     @session.on 'clear', => @clearView()
     @on 'click', =>
       @hiddenInput.focus()
     @on 'focus', =>
       @hiddenInput.focus()
-      # @updateTerminalSize()
-      # @scrollToCursor()
+      @updateTerminalSize()
+      @scrollToCursor()
       false
     @on 'textInput', (e) =>
       @input(e.originalEvent.data)
@@ -54,6 +57,9 @@ class TerminalView extends View
     @command "terminal:end", => @input(TerminalBuffer.ctrl("e"))
     @command "terminal:reload", => @reload()
 
+    @subscribe $(window), 'resize', =>
+      @updateTerminalSize()
+
   setModel: (@session) ->
 
   input: (data) ->
@@ -65,9 +71,11 @@ class TerminalView extends View
     if bgcolor >= 16 then char.css("background-color": "##{TerminalView.color(bgcolor)}")
     else if bgcolor >= 0 then char.addClass("background-#{bgcolor}")
 
-  renderChar: (c) ->
+  renderChar: (lineNumber, c) ->
     char = $("<span>").text(c.char).addClass("character")
-    char.append($("<span>").addClass("cursor")) if c.cursor
+    if c.cursor
+      char.append($("<span>").addClass("cursor"))
+      @newCursorLine = lineNumber
     [color, bgcolor] = [c.color, c.backgroundColor]
     if c.reversed
       color = 7 if color == -1
@@ -78,7 +86,7 @@ class TerminalView extends View
 
   renderLine: (lineNumber, chars) ->
     line = $("<pre>").addClass("line").addClass("line-#{lineNumber}")
-    line.append(@renderChar(char)) for char in chars if chars?
+    line.append(@renderChar(lineNumber, char)) for char in chars if chars?
     line
 
   update: ({lineNumber, chars}) ->
@@ -101,7 +109,29 @@ class TerminalView extends View
     for lineNumber, chars of @pendingUpdates
       @update({lineNumber: lineNumber, chars: chars})
     @pendingUpdates = {}
+    if @newCursorLine != @cursorLine
+      @scrollToCursor()
+      @cursorLine = @newCursorLine
     @trigger 'view-updated'
+
+  updateTerminalSize: () ->
+    tester = $("<pre><span class='character'>a</span></pre>")
+    @renderedLines.append(tester)
+    charWidth = parseInt(tester.find("span").css("width"))
+    lineHeight = parseInt(tester.css("height"))
+    tester.remove()
+    windowWidth = parseInt(@renderedLines.css("width"))
+    windowHeight = parseInt(@css("height"))
+    h = Math.floor(windowHeight / lineHeight) + 1
+    w = Math.floor(windowWidth / charWidth) - 1
+    return if h <= 0 || w <= 0 || (@terminalSize? && @terminalSize[0] == h && @terminalSize[1] == w)
+    @terminalSize = [h, w, charWidth, lineHeight]
+    @session.trigger 'resize', @terminalSize
+
+  scrollToCursor: () ->
+    cursor = @renderedLines.find("pre span .cursor").parent().position()
+    topOffset = @renderedLines.offset().top
+    if cursor? then @scrollTop(cursor.top - topOffset)
 
   clearView: ->
     @pendingDisplayUpdate = false
