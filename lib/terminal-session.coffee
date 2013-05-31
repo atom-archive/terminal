@@ -21,7 +21,7 @@ class TerminalSession
       name: 'xterm-256color'
       cols: 80
       rows: 30
-      cwd: fsUtils.absolute(@path)
+      cwd: fsUtils.absolute(@path+"/")
       env: process.env
     )
 
