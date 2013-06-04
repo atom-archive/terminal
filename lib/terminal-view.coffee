@@ -72,7 +72,9 @@ class TerminalView extends ScrollView
     else if bgcolor >= 0 then char.addClass("background-#{bgcolor}")
 
   renderChar: (lineNumber, c) ->
-    char = $("<span>").text(c.char).addClass("character")
+    text = c.char
+    if text == "" || text == " " then text = "&nbsp;"
+    char = $("<span>").html(text).addClass("character")
     if c.cursor
       char.append($("<span>").addClass("cursor"))
       @newCursorLine = lineNumber
@@ -124,7 +126,7 @@ class TerminalView extends ScrollView
     windowWidth = parseInt(@renderedLines.css("width"))
     windowHeight = parseInt(@css("height"))
     h = Math.floor(windowHeight / lineHeight) + 1
-    w = Math.floor(windowWidth / charWidth) - 1
+    w = Math.floor(windowWidth / charWidth)
     return if h <= 0 || w <= 0 || (@terminalSize? && @terminalSize[0] == h && @terminalSize[1] == w)
     @terminalSize = [h, w, charWidth, lineHeight]
     @session.trigger 'resize', @terminalSize
