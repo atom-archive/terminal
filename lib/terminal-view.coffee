@@ -82,6 +82,7 @@ class TerminalView extends ScrollView
       bgcolor = 7 if bgcolor == -1
       [color, bgcolor] = [bgcolor, color]
     @characterColor(char, color, bgcolor)
+    (char.addClass(s) if c[s] == true) for s in ['bold', 'italic', 'underlined']
     char
 
   renderLine: (lineNumber, chars) ->

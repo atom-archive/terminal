@@ -1,7 +1,7 @@
 TerminalBuffer = require 'terminal/lib/terminal-buffer'
 RootView = require 'root-view'
 
-fdescribe "Terminal Buffer", ->
+describe "Terminal Buffer", ->
   [buffer,events,output] = []
   beforeEach ->
     window.rootView = new RootView
