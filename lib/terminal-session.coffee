@@ -50,7 +50,7 @@ class TerminalSession
   getUri: -> "terminal://#{@id}#{@path}"
 
   destroy: ->
-    @process.kill()
+    @process.destroy()
 
   input: (data) ->
     @process.write(data)
