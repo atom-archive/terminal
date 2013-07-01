@@ -42,8 +42,7 @@ class TerminalSession
   getViewClass: ->
     require './terminal-view'
 
-  getTitle: ->
-    "Terminal - #{@path}"
+  getTitle: -> 'Terminal'
 
   destroy: ->
     @process.kill()
