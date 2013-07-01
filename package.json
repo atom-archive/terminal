@@ -1,7 +1,21 @@
 {
   "name": "terminal",
   "main": "./lib/terminal.coffee",
+  "version": "0.0.0",
   "dependencies": {
     "pty.js": "0.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/atom/terminal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atom/terminal/issues"
+  },
+  "engines": {
+    "atom": "*"
+  },
+  "publishConfig": {
+    "registry": "https://atom.iriscouch.com/registry/_design/app/_rewrite"
   }
 }
