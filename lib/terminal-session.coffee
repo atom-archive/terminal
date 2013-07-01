@@ -3,19 +3,21 @@ fsUtils = require 'fs-utils'
 EventEmitter = require 'event-emitter'
 _ = require 'underscore'
 TerminalBuffer = require './terminal-buffer'
+guid = require 'guid'
 
 module.exports =
 class TerminalSession
   registerDeserializer(this)
 
+  @deserialize: (state) ->
+    new TerminalSession(state)
+
   path: null
   process: null
   exitCode: null
 
-  @deserialize: ({path}) ->
-    new TerminalSession(path)
-
-  constructor: (@path) ->
+  constructor: ({@path, @id}) ->
+    @id ?= guid.create().toString()
     @buffer = new TerminalBuffer
     @process = pty.spawn(process.env.SHELL, ["-l"],
       name: 'xterm-256color'
@@ -38,11 +40,14 @@ class TerminalSession
   serialize: ->
     deserializer: 'TerminalSession'
     path: @path
+    id: @id
 
   getViewClass: ->
     require './terminal-view'
 
   getTitle: -> 'Terminal'
+
+  getUri: -> "terminal://#{@id}#{@path}"
 
   destroy: ->
     @process.kill()

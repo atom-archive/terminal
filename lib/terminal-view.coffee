@@ -14,10 +14,9 @@ class TerminalView extends ScrollView
   @color: (n) ->
     ColorTable[n-16]
 
-  constructor: (session) ->
+  constructor: (@session) ->
     super
     @pendingDisplayUpdate = false
-    @setModel(session)
     @pendingUpdates = {}
     @cursorLine = 0
     @newCursorLine = 0
@@ -59,8 +58,6 @@ class TerminalView extends ScrollView
 
     @subscribe $(window), 'resize', =>
       @updateTerminalSize()
-
-  setModel: (@session) ->
 
   input: (data) ->
     @session?.trigger 'input', data
