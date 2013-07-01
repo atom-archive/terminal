@@ -1,7 +1,7 @@
 TerminalSession = require '../lib/terminal-session'
 TerminalBuffer = require '../lib/terminal-buffer'
 
-fdescribe "TerminalSession", ->
+describe "TerminalSession", ->
   session = null
 
   beforeEach ->

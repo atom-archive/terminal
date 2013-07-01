@@ -4,7 +4,7 @@ RootView = require 'root-view'
 EventEmitter = require 'event-emitter'
 _ = require 'underscore'
 
-fdescribe "Terminal view", ->
+describe "Terminal view", ->
   [view, session] = []
 
   makeChars = (chars...) ->
