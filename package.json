@@ -1,5 +1,6 @@
 {
   "name": "terminal",
+  "description": "Terminal sessions from within Atom",
   "main": "./lib/terminal.coffee",
   "version": "0.0.0",
   "dependencies": {
