@@ -7,7 +7,7 @@ module.exports =
   activate: ->
     Project.registerOpener(@customOpener)
     rootView.command 'terminal:open', ->
-      directory = project.getPath() ? '~'
+      directory = project.getPath() ? '~/'
       rootView.open("terminal://#{nextTerminalId++}/#{directory}")
 
   deactivate: ->
