@@ -772,7 +772,6 @@ class TerminalCursor
   character: ->
     @x - 1
 
-
 class TerminalScrollingRegion
   constructor: (top, bottom, @start) ->
     @size = [top, bottom]

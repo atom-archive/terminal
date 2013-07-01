@@ -18,7 +18,6 @@ describe "TerminalSession", ->
     it "creates a terminal buffer", ->
       expect(session.buffer instanceof TerminalBuffer).toBeTruthy()
 
-
   describe "input", ->
     it "sends inputs to terminal process", ->
       session.input("logout\n")
