@@ -1,7 +1,7 @@
 {View} = require 'space-pen'
 ScrollView = require 'scroll-view'
-TerminalBuffer = require 'terminal/lib/terminal-buffer'
-ColorTable = require 'terminal/lib/terminal-color-table'
+TerminalBuffer = require './terminal-buffer'
+ColorTable = require './terminal-color-table'
 _ = require 'underscore'
 $ = require 'jquery'
 

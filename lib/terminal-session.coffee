@@ -2,7 +2,7 @@ pty = require 'pty.js'
 fsUtils = require 'fs-utils'
 EventEmitter = require 'event-emitter'
 _ = require 'underscore'
-TerminalBuffer = require 'terminal/lib/terminal-buffer'
+TerminalBuffer = require './terminal-buffer'
 
 module.exports =
 class TerminalSession

@@ -1,5 +1,5 @@
-TerminalView = require 'terminal/lib/terminal-view'
-TerminalBuffer = require 'terminal/lib/terminal-buffer'
+TerminalView = require '../lib/terminal-view'
+TerminalBuffer = require '../lib/terminal-buffer'
 RootView = require 'root-view'
 EventEmitter = require 'event-emitter'
 _ = require 'underscore'

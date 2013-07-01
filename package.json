@@ -1,6 +1,6 @@
 {
   "name": "terminal",
-  "main": "lib/terminal.coffee",
+  "main": "./lib/terminal.coffee",
   "dependencies": {
     "pty.js": "0.2.2"
   }

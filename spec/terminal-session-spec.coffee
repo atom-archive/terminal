@@ -1,5 +1,5 @@
-TerminalSession = require 'terminal/lib/terminal-session'
-TerminalBuffer = require 'terminal/lib/terminal-buffer'
+TerminalSession = require '../lib/terminal-session'
+TerminalBuffer = require '../lib/terminal-buffer'
 
 fdescribe "TerminalSession", ->
   session = null

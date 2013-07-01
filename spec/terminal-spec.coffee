@@ -1,4 +1,4 @@
-TerminalSession = require 'terminal/lib/terminal-session'
+TerminalSession = require '../lib/terminal-session'
 RootView = require 'root-view'
 
 fdescribe "Terminal", ->

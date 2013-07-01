@@ -1,4 +1,4 @@
-TerminalBuffer = require 'terminal/lib/terminal-buffer'
+TerminalBuffer = require '../lib/terminal-buffer'
 RootView = require 'root-view'
 
 describe "Terminal Buffer", ->
