@@ -1,4 +1,3 @@
-{View} = require 'space-pen'
 ScrollView = require 'scroll-view'
 TerminalBuffer = require './terminal-buffer'
 ColorTable = require './terminal-color-table'
@@ -11,6 +10,7 @@ class TerminalView extends ScrollView
     @div class: "terminal", =>
       @div class: "lines", outlet: "renderedLines"
       @input class: 'hidden-input', outlet: 'hiddenInput'
+
   @color: (n) ->
     ColorTable[n-16]
 
