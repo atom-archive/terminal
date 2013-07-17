@@ -1,24 +1,19 @@
 TerminalSession = require '../lib/terminal-session'
-TerminalBuffer = require '../lib/terminal-buffer'
 
 describe "TerminalSession", ->
   session = null
 
   beforeEach ->
     session = new TerminalSession('~')
+    waitsFor "initial terminal data event", (done) -> session.one 'data', done
 
   afterEach ->
     session?.destroy()
 
-  describe "data events", ->
-    it "forwards data events from the underlying terminal process", ->
-      waitsFor "data event", (done) -> session.one 'data', done
-
-  describe "buffer", ->
-    it "creates a terminal buffer", ->
-      expect(session.buffer instanceof TerminalBuffer).toBeTruthy()
-
   describe "input", ->
     it "sends inputs to terminal process", ->
-      session.input("logout\n")
-      waitsFor "exit", -> session.exitCode == 0
+      session.input("echo a\n")
+      waitsFor "data event response to input",(done) ->
+        session.one 'data', (data) ->
+          expect(data).toBe "echo a\r\na\r\n"
+          done()

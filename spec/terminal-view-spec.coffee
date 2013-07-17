@@ -12,6 +12,7 @@ describe "Terminal view", ->
     for char in chars
       c.push({char: char})
     c
+
   afterUpdate = (cb) ->
     waitsFor "view update", (done) ->
       view.one 'view-updated', ->
