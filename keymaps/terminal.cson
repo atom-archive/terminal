@@ -1,3 +1,6 @@
+'body':
+  'ctrl-`': 'terminal:open'
+
 '.terminal':
   'enter': 'terminal:enter'
   'delete': 'terminal:delete'
