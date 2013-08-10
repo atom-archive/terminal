@@ -15,5 +15,5 @@ describe "TerminalSession", ->
       session.input("echo a\n")
       waitsFor "data event response to input",(done) ->
         session.one 'data', (data) ->
-          expect(data).toBe "echo a\r\na\r\n"
+          expect(data).toContain "echo a\r\na\r\n"
           done()
