@@ -23,7 +23,8 @@ class TerminalSession
     @buffer = new TerminalBuffer
 
     @process = @forkPtyProcess()
-    @process.on 'message', (data) => @trigger 'data', data
+    @process.on 'message', ({type, data}) => @trigger type, data
+
     @on 'data', (data) => @buffer.trigger 'data', data
     @on 'input', (data) => @input(data)
     @on 'resize', (data) => @resize(data)

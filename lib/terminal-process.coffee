@@ -7,7 +7,8 @@ ptyProcess = pty.spawn process.env.SHELL, ['-l'],
   cwd: process.env.ptyCwd
   env: process.env
 
-ptyProcess.on 'data', (data) -> process.send(data)
+ptyProcess.on 'data', (data) -> process.send({type: 'data', data})
+ptyProcess.on 'exit', -> process.send(type: 'exit')
 
 process.on 'message', (message) ->
   switch message.event

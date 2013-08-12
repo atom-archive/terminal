@@ -10,6 +10,13 @@ describe "TerminalSession", ->
   afterEach ->
     session?.destroy()
 
+  describe "exiting shell", ->
+    it "emits the exit event", ->
+      session.input("exit\n")
+      waitsFor "data event response to input",(done) ->
+        session.on "exit", ->
+          done()
+
   describe "input", ->
     it "sends inputs to terminal process", ->
       session.input("echo a\n")
