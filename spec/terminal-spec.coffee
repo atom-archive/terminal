@@ -9,4 +9,4 @@ describe "Terminal", ->
   describe "the terminal:open command", ->
     it "opens a terminal session for the given path in the current pane", ->
       rootView.trigger 'terminal:open'
-      expect(rootView.getActivePaneItem() instanceof TerminalSession).toBeTruthy()
+      expect(rootView.getActivePaneItem().constructor.name is 'TerminalSession').toBeTruthy()

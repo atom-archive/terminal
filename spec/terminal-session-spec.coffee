@@ -19,8 +19,12 @@ describe "TerminalSession", ->
 
   describe "input", ->
     it "sends inputs to terminal process", ->
-      session.input("echo a\n")
+      session.input("echo a; exit\n")
       waitsFor "data event response to input",(done) ->
-        session.one 'data', (data) ->
-          expect(data).toContain "echo a\r\na\r\n"
+        buffer = ''
+        expected = "echo a; exit\r\na\r\n"
+        session.on 'data', (data) ->
+          buffer += expected
+        session.on 'exit', ->
+          expect(buffer).toContain expected
           done()
