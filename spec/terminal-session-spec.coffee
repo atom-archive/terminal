@@ -13,7 +13,7 @@ describe "TerminalSession", ->
   describe "exiting shell", ->
     it "emits the exit event", ->
       session.input("exit\n")
-      waitsFor "data event response to input",(done) ->
+      waitsFor "data event response to input", (done) ->
         session.on "exit", ->
           done()
 
