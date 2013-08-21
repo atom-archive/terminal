@@ -1,5 +1,13 @@
 Project = require 'project'
-TerminalSession = require './terminal-session'
+
+TerminalSession = null
+createTerminalSession = (state) ->
+  TerminalSession ?= require './terminal-session'
+  new TerminalSession(state)
+
+registerDeserializer
+  name: 'TerminalSession'
+  deserialize: (state) -> createTerminalSession(state)
 
 module.exports =
   activate: ->
@@ -14,4 +22,4 @@ module.exports =
   customOpener: (uri) ->
     if match = uri?.match(/^terminal:\/\/(.*)/)
       initialDirectory = match[1]
-      new TerminalSession({path: initialDirectory})
+      createTerminalSession({path: initialDirectory})

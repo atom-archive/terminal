@@ -9,11 +9,6 @@ TerminalBuffer = require './terminal-buffer'
 
 module.exports =
 class TerminalSession
-  registerDeserializer(this)
-
-  @deserialize: (state) ->
-    new TerminalSession(state)
-
   path: null
   process: null
   exitCode: null
