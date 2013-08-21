@@ -7,6 +7,7 @@ createTerminalSession = (state) ->
 
 registerDeserializer
   name: 'TerminalSession'
+  version: 1
   deserialize: (state) -> createTerminalSession(state)
 
 module.exports =
