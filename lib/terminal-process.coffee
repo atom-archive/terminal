@@ -13,14 +13,12 @@ class PtyProcessContext
     @process.on 'data', (data) -> this.send({type: 'data', data})
     @process.on 'exit', -> this.send(type: 'exit')
 
-    this.on 'message', (message) ->
-      switch message.event
-        when 'resize'
-          {columns, rows} = message
-          ptyProcess.resize(columns, rows)
-        when 'input'
-          {text} = message
-          ptyProcess.write(text)
+    resize: (columns, rows) ->
+      @process.resize(columns, rows)
+
+    sendInput: (text) ->
+      @process.write(text)
+
 
 util.inherits PtyProcessContext, EventEmitter
 
