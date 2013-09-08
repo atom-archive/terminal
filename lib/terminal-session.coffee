@@ -31,7 +31,7 @@ class TerminalSession
     processPath = require.resolve('./terminal-process')
     bootstrap = """
       require('coffee-script');
-      require('coffee-cache').setCacheDir('/tmp/atom-coffee-cache');
+      require('coffee-cache');
       require('#{processPath}');
     """
     env = _.extend({ptyCwd: fsUtils.absolute(@path)}, process.env)
