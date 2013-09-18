@@ -1,8 +1,6 @@
 {fork} = require 'child_process'
-fsUtils = require 'fs-utils'
 
-EventEmitter = require 'event-emitter'
-_ = require 'underscore'
+{_, EventEmitter, fs} = require 'atom-api'
 guid = require 'guid'
 
 TerminalBuffer = require './terminal-buffer'
@@ -34,7 +32,7 @@ class TerminalSession
       require('coffee-cache');
       require('#{processPath}');
     """
-    env = _.extend({ptyCwd: fsUtils.absolute(@path)}, process.env)
+    env = _.extend({ptyCwd: fs.absolute(@path)}, process.env)
     args = [bootstrap, '--harmony_collections']
     fork '--eval', args, {env, cwd: __dirname}
 
