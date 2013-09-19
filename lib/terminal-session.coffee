@@ -21,7 +21,9 @@ class TerminalSession
     @on 'resize', (data) => @resize(data)
     @buffer.on 'update', (data) => @trigger 'update', data
     @buffer.on 'clear', => @trigger 'clear'
-    @process.on 'task:completed', => @exitCode = 0
+    @process.on 'terminal:exit', =>
+      @trigger 'exit'
+      @exitCode = 0
 
   forkPtyProcess: ->
     processPath = require.resolve('./terminal-process')

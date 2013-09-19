@@ -10,7 +10,9 @@ module.exports = (ptyCwd) ->
     env: process.env
 
   ptyProcess.on 'data', (data) -> emit('terminal:data', data)
-  ptyProcess.on 'exit', -> callback()
+  ptyProcess.on 'exit', ->
+    emit('terminal:exit')
+    callback()
 
   process.on 'message', ({event, columns, rows, text}={}) ->
     switch event
