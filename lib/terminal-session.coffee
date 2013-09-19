@@ -1,4 +1,4 @@
-{_, EventEmitter, fs, Task} = require 'atom-api'
+{_, EventEmitter, fs, Task} = require 'atom'
 guid = require 'guid'
 
 TerminalBuffer = require './terminal-buffer'

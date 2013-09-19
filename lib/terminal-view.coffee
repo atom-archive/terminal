@@ -1,4 +1,4 @@
-{_, $, ScrollView} = require 'atom-api'
+{_, $, ScrollView} = require 'atom'
 TerminalBuffer = require './terminal-buffer'
 ColorTable = require './terminal-color-table'
 
