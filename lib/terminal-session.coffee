@@ -1,6 +1,4 @@
-{fork} = require 'child_process'
-
-{_, EventEmitter, fs} = require 'atom-api'
+{_, EventEmitter, fs, Task} = require 'atom-api'
 guid = require 'guid'
 
 TerminalBuffer = require './terminal-buffer'
@@ -16,25 +14,18 @@ class TerminalSession
     @buffer = new TerminalBuffer
 
     @process = @forkPtyProcess()
-    @process.on 'message', ({type, data}) => @trigger type, data
+    @process.on 'terminal:data', (data) => @trigger 'data', data
 
     @on 'data', (data) => @buffer.trigger 'data', data
     @on 'input', (data) => @input(data)
     @on 'resize', (data) => @resize(data)
     @buffer.on 'update', (data) => @trigger 'update', data
     @buffer.on 'clear', => @trigger 'clear'
-    @process.on 'exit', => @exitCode = 0
+    @process.on 'task:completed', => @exitCode = 0
 
   forkPtyProcess: ->
     processPath = require.resolve('./terminal-process')
-    bootstrap = """
-      require('coffee-script');
-      require('coffee-cache');
-      require('#{processPath}');
-    """
-    env = _.extend({ptyCwd: fs.absolute(@path)}, process.env)
-    args = [bootstrap, '--harmony_collections']
-    fork '--eval', args, {env, cwd: __dirname}
+    Task.once(processPath, fs.absolute(@path))
 
   serialize: ->
     deserializer: 'TerminalSession'
@@ -49,7 +40,7 @@ class TerminalSession
   getUri: -> "terminal://#{@id}#{@path}"
 
   destroy: ->
-    @process.kill()
+    @process.terminate()
 
   input: (data) ->
     @process.send(event: 'input', text: data)
