@@ -12,10 +12,11 @@ describe "Terminal view", ->
     c
 
   afterUpdate = (cb) ->
-    waitsFor "view update", (done) ->
-      view.one 'view-updated', ->
-        cb?()
-        done()
+    updated = false
+    view.one 'view-updated', -> updated = true
+    waitsFor "view update", 30000, ->
+      cb?() if updated
+      updated
 
   beforeEach ->
     window.rootView = new RootView
