@@ -1,10 +1,13 @@
-{_, EventEmitter, fs, Task} = require 'atom'
+{_, fs, Task} = require 'atom'
+{Emitter} = require 'emissary'
 guid = require 'guid'
 
 TerminalBuffer = require './terminal-buffer'
 
 module.exports =
 class TerminalSession
+  Emitter.includeInto(this)
+
   path: null
   process: null
   exitCode: null
@@ -14,15 +17,15 @@ class TerminalSession
     @buffer = new TerminalBuffer
 
     @process = @forkPtyProcess()
-    @process.on 'terminal:data', (data) => @trigger 'data', data
+    @process.on 'terminal:data', (data) => @emit 'data', data
 
-    @on 'data', (data) => @buffer.trigger 'data', data
+    @on 'data', (data) => @buffer.emit 'data', data
     @on 'input', (data) => @input(data)
     @on 'resize', (data) => @resize(data)
-    @buffer.on 'update', (data) => @trigger 'update', data
-    @buffer.on 'clear', => @trigger 'clear'
+    @buffer.on 'update', (data) => @emit 'update', data
+    @buffer.on 'clear', => @emit 'clear'
     @process.on 'terminal:exit', =>
-      @trigger 'exit'
+      @emit 'exit'
       @exitCode = 0
 
   forkPtyProcess: ->
@@ -51,5 +54,3 @@ class TerminalSession
     [rows, columns] = data
     @buffer.setSize([rows, columns])
     @process.send({event: 'resize', rows, columns})
-
-_.extend TerminalSession.prototype, EventEmitter

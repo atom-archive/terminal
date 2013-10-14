@@ -5,7 +5,8 @@
   "version": "0.10.0",
   "dependencies": {
     "pty.js": "0.2.2",
-    "guid": "0.0.10"
+    "guid": "0.0.10",
+    "emissary": "~0.6.0"
   },
   "repository": {
     "type": "git",

@@ -58,7 +58,7 @@ class TerminalView extends ScrollView
       @updateTerminalSize()
 
   input: (data) ->
-    @session?.trigger 'input', data
+    @session?.emit 'input', data
 
   characterColor: (char, color, bgcolor) ->
     if color >= 16 then char.css(color: "##{TerminalView.color(color)}")
@@ -124,7 +124,7 @@ class TerminalView extends ScrollView
     w = Math.floor(windowWidth / charWidth)
     return if h <= 0 || w <= 0 || (@terminalSize? && @terminalSize[0] == h && @terminalSize[1] == w)
     @terminalSize = [h, w, charWidth, lineHeight]
-    @session.trigger 'resize', @terminalSize
+    @session.emit 'resize', @terminalSize
 
   scrollToCursor: () ->
     cursor = @renderedLines.find("pre span .cursor").parent().position()
