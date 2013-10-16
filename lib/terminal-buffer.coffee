@@ -1,7 +1,10 @@
-{_, EventEmitter} = require 'atom'
+{_} = require 'atom'
+{Emitter} = require 'emissary'
 
 module.exports =
 class TerminalBuffer
+  Emitter.includeInto(this)
+
   @enter: String.fromCharCode(10)
   @carriageReturn: String.fromCharCode(13)
   @deleteKey: String.fromCharCode(127)
@@ -94,7 +97,7 @@ class TerminalBuffer
     (line.number = parseInt(n); line.setDirty()) for n,line of @lines
 
   lineChanged: (line) ->
-    @trigger 'update',
+    @emit 'update',
       lineNumber: line.number
       chars: line.characters
 
@@ -184,7 +187,7 @@ class TerminalBuffer
 
   enableAlternateBuffer: ->
     [@altBuffer, @lines] = [@lines, []]
-    @trigger 'clear'
+    @emit 'clear'
     @addLine()
     @scrollingRegion = null
 
@@ -193,7 +196,7 @@ class TerminalBuffer
     [@lines, @altBuffer] = [@altBuffer, null]
     @scrollingRegion = null
     line.setDirty() for line in @lines
-    @trigger 'clear'
+    @emit 'clear'
 
   backspace: ->
     @cursor.x -= 1
@@ -280,7 +283,7 @@ class TerminalBuffer
       when 3 then # Ignore ETX
       when 4 then # Ignore EOT
       when 5 # ENQ
-        @trigger 'output', String.fromCharCode(6)
+        @emit 'output', String.fromCharCode(6)
       when 7 then # Ignore BEL
       when 8 then @backspace()
       when 9 # TAB
@@ -437,7 +440,7 @@ class TerminalBuffer
         c = @cursorLine().getCharacter(@cursor.character() - 1)
         @insertCharacter(c.char) for n in [1..num] if c?
       when "c" # DA - Send device attribute
-        @trigger 'output', TerminalBuffer.escapeSequence("?6c")
+        @emit 'output', TerminalBuffer.escapeSequence("?6c")
       when "d" # VPA - Move cursor to line (absolute)
         @moveCursorTo([num, @cursor.x])
       when "e" # VPR - Move cursor to line (relative)
@@ -595,11 +598,11 @@ class TerminalBuffer
       when "n" # DSR - Device status report
         num = parseInt(seq[0].replace(/^\?/, ''))
         if num == 5 # Are you ok?
-          @trigger 'output', TerminalBuffer.escapeSequence("0n")
+          @emit 'output', TerminalBuffer.escapeSequence("0n")
         else if num == 6 # Cursor position
-          @trigger 'output', TerminalBuffer.escapeSequence("#{@cursor.y};#{@cursor.x}R")
+          @emit 'output', TerminalBuffer.escapeSequence("#{@cursor.y};#{@cursor.x}R")
         else if num == 15 # Printer status
-          @trigger 'output', TerminalBuffer.escapeSequence("1n")
+          @emit 'output', TerminalBuffer.escapeSequence("1n")
       when "p" then # Ignore pointer mode (>), DECSTR - soft reset (!), DECRQM - ansi mode ($)
       when "q" then # DECLL - Ignore load LEDs, DECSCUSR -set cursor style (sp)
       when "r" # DECSTBM - Set scrollable region
@@ -618,9 +621,6 @@ class TerminalBuffer
     @inEscapeSequence = true
     @escapeSequence = ""
     @escapeSequenceStarted = false
-
-_.extend TerminalBuffer.prototype, EventEmitter
-
 
 class TerminalBufferLine
   constructor: (@buffer, @number) ->

@@ -5,7 +5,7 @@ describe "TerminalSession", ->
 
   beforeEach ->
     session = new TerminalSession('~')
-    waitsFor "initial terminal data event", (done) -> session.one 'data', done
+    waitsFor "initial terminal data event", (done) -> session.once 'data', done
 
   afterEach ->
     session?.destroy()
