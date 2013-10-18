@@ -1,0 +1,10 @@
+'menu': [
+  'label': 'Packages'
+  'submenu': [
+    'label': 'Terminal'
+    'submenu': [
+      'label': 'Open'
+      'command': 'terminal:open'
+    ]
+  ]
+]
