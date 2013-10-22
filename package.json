@@ -2,7 +2,7 @@
   "name": "terminal",
   "description": "Terminal sessions from within Atom",
   "main": "./lib/terminal",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "dependencies": {
     "pty.js": "0.2.2",
     "guid": "0.0.10",
