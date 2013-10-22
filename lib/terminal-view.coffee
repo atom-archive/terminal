@@ -1,4 +1,4 @@
-{_, $, ScrollView} = require 'atom'
+{$, ScrollView} = require 'atom'
 TerminalBuffer = require './terminal-buffer'
 ColorTable = require './terminal-color-table'
 
@@ -99,7 +99,7 @@ class TerminalView extends ScrollView
     @pendingUpdates[lineNumber] = chars
     return if @pendingDisplayUpdate
     @pendingDisplayUpdate = true
-    _.nextTick =>
+    setImmediate =>
       @updateView()
       @pendingDisplayUpdate = false
 
