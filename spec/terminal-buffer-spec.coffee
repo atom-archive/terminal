@@ -4,8 +4,8 @@ TerminalBuffer = require '../lib/terminal-buffer'
 describe "Terminal Buffer", ->
   [buffer,events,output] = []
   beforeEach ->
-    window.rootView = new RootView
-    atom.activatePackage 'terminal'
+    atom.rootView = new RootView
+    atom.packages.activatePackage 'terminal'
     buffer = new TerminalBuffer
     events = []
     buffer.on 'update', (data) ->

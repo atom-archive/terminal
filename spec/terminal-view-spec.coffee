@@ -20,8 +20,8 @@ describe "Terminal view", ->
       updated
 
   beforeEach ->
-    window.rootView = new RootView
-    atom.activatePackage 'terminal'
+    atom.rootView = new RootView
+    atom.packages.activatePackage 'terminal'
     session = {}
     Emitter.extend(session)
     view = new TerminalView(session)

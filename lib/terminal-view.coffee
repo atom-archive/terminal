@@ -45,7 +45,7 @@ class TerminalView extends ScrollView
       do (letter) =>
         key = TerminalBuffer.ctrl(letter)
         @command "terminal:ctrl-#{letter}", => @input(key)
-    @command "terminal:paste", => @input(pasteboard.read())
+    @command "terminal:paste", => @input(atom.pasteboard.read())
     @command "terminal:left", => @input(TerminalBuffer.escapeSequence("D"))
     @command "terminal:right", => @input(TerminalBuffer.escapeSequence("C"))
     @command "terminal:up", => @input(TerminalBuffer.escapeSequence("A"))
