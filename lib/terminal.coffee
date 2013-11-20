@@ -3,7 +3,7 @@ createTerminalSession = (state) ->
   TerminalSession ?= require './terminal-session'
   new TerminalSession(state)
 
-registerDeserializer
+atom.deserializers.add
   name: 'TerminalSession'
   version: 1
   deserialize: (state) -> createTerminalSession(state)
