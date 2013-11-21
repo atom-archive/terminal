@@ -7,11 +7,17 @@
   'backspace': 'terminal:backspace'
   'escape': 'terminal:escape'
   'tab': 'terminal:tab'
-  'meta-v': 'terminal:paste'
   'left': 'terminal:left'
   'right': 'terminal:right'
   'up': 'terminal:up'
   'down': 'terminal:down'
   'home': 'terminal:home'
   'end': 'terminal:end'
-  'meta-alt-r': 'terminal:reload'
+
+'.platform-darwin .terminal':
+  'cmd-v': 'terminal:paste'
+  'cmd-alt-r': 'terminal:reload'
+
+'.platform-win32 .terminal':
+  'ctrl-v': 'terminal:paste'
+  'ctrl-alt-r': 'terminal:reload'
