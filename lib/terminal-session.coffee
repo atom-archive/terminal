@@ -34,6 +34,7 @@ class TerminalSession
 
   serialize: ->
     deserializer: 'TerminalSession'
+    version: 1
     path: @path
     id: @id
 
