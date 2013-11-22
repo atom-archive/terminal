@@ -31,7 +31,7 @@ class TerminalView extends ScrollView
       @input(e.originalEvent.data)
       false
     @on 'keydown', (e) =>
-      keystroke = keymap.keystrokeStringForEvent(e)
+      keystroke = atom.keymap.keystrokeStringForEvent(e)
       if match = keystroke.match /^ctrl-([a-zA-Z])$/
         @input(TerminalBuffer.ctrl(match[1]))
         false
