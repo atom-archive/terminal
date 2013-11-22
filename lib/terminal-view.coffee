@@ -5,7 +5,7 @@ ColorTable = require './terminal-color-table'
 module.exports =
 class TerminalView extends ScrollView
   @content:->
-    @div class: "terminal", =>
+    @div class: "terminal", tabindex: -1, =>
       @div class: "lines", outlet: "renderedLines"
       @input class: 'hidden-input', outlet: 'hiddenInput'
 
