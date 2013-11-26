@@ -1,17 +1,17 @@
 TerminalSession = require '../lib/terminal-session'
-{RootView} = require 'atom'
+{WorkspaceView} = require 'atom'
 
 describe "Terminal", ->
   beforeEach ->
-    atom.rootView = new RootView
+    atom.workspaceView = new WorkspaceView
     atom.packages.activatePackage 'terminal'
 
   describe "the terminal:open command", ->
     it "opens a terminal session for the given path in the current pane", ->
-      atom.rootView.trigger 'terminal:open'
+      atom.workspaceView.trigger 'terminal:open'
 
       waitsFor ->
-        atom.rootView.getActivePane()
+        atom.workspaceView.getActivePane()
 
       runs ->
-        expect(atom.rootView.getActivePaneItem() instanceof TerminalSession).toBe true
+        expect(atom.workspaceView.getActivePaneItem() instanceof TerminalSession).toBe true

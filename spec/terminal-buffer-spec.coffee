@@ -1,10 +1,10 @@
 TerminalBuffer = require '../lib/terminal-buffer'
-{RootView} = require 'atom'
+{WorkspaceView} = require 'atom'
 
 describe "Terminal Buffer", ->
   [buffer,events,output] = []
   beforeEach ->
-    atom.rootView = new RootView
+    atom.workspaceView = new WorkspaceView
     atom.packages.activatePackage 'terminal'
     buffer = new TerminalBuffer
     events = []

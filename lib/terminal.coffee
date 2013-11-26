@@ -11,9 +11,9 @@ atom.deserializers.add
 module.exports =
   activate: ->
     atom.project.registerOpener(@customOpener)
-    atom.rootView.command 'terminal:open', ->
+    atom.workspaceView.command 'terminal:open', ->
       initialDirectory = atom.project.getPath() ? '~'
-      atom.rootView.open("terminal://#{initialDirectory}")
+      atom.workspaceView.open("terminal://#{initialDirectory}")
 
   deactivate: ->
     atom.project.unregisterOpener(@customOpener)

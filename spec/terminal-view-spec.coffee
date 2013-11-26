@@ -1,6 +1,6 @@
 TerminalView = require '../lib/terminal-view'
 TerminalBuffer = require '../lib/terminal-buffer'
-{_, RootView} = require 'atom'
+{_, WorkspaceView} = require 'atom'
 {Emitter} = require 'emissary'
 
 describe "Terminal view", ->
@@ -20,7 +20,7 @@ describe "Terminal view", ->
       updated
 
   beforeEach ->
-    atom.rootView = new RootView
+    atom.workspaceView = new WorkspaceView
     atom.packages.activatePackage 'terminal'
     session = {}
     Emitter.extend(session)
