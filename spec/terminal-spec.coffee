@@ -11,7 +11,7 @@ describe "Terminal", ->
       atom.workspaceView.trigger 'terminal:open'
 
       waitsFor ->
-        atom.workspaceView.getActivePane()
+        atom.workspaceView.getActivePaneItem()
 
       runs ->
         expect(atom.workspaceView.getActivePaneItem() instanceof TerminalSession).toBe true
