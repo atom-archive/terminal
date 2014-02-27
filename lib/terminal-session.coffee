@@ -1,4 +1,5 @@
-{_, fs, Task} = require 'atom'
+fs = require 'fs-plus'
+{_, Task} = require 'atom'
 {Emitter} = require 'emissary'
 guid = require 'guid'
 

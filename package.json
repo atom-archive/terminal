@@ -6,7 +6,9 @@
   "dependencies": {
     "pty.js": "http://gh-contractor-zcbenz.s3.amazonaws.com/temp/pty.js-0.2.4.tgz",
     "guid": "0.0.10",
-    "emissary": "1.x"
+    "emissary": "1.x",
+    "underscore-plus": "1.x",
+    "fs-plus": "2.x"
   },
   "repository": "https://github.com/atom/terminal",
   "engines": {
