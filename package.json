@@ -11,6 +11,7 @@
     "fs-plus": "2.x"
   },
   "repository": "https://github.com/atom/terminal",
+  "license": "MIT",
   "engines": {
     "atom": "*"
   }
