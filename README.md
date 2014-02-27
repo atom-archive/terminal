@@ -1,4 +1,4 @@
-# Terminal Atom Package
+# Atom Terminal Package
 
 ----
 
