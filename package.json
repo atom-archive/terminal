@@ -2,7 +2,7 @@
   "name": "terminal",
   "description": "Terminal sessions from within Atom",
   "main": "./lib/terminal",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "dependencies": {
     "pty.js": "http://gh-contractor-zcbenz.s3.amazonaws.com/temp/pty.js-0.2.4.tgz",
     "guid": "0.0.10",
